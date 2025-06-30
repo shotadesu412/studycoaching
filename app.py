@@ -178,6 +178,11 @@ def init_db():
             
         conn.close()
 
+# --- ここからが修正点 ---
+# アプリケーション起動時にデータベースを初期化する
+init_db()
+# --- ここまでが修正点 ---
+
 # 定期的なメトリクス保存
 def save_metrics_periodically():
     while True:
@@ -573,13 +578,11 @@ def too_many_requests(error):
 def internal_error(error):
     return jsonify({"error": "サーバーエラーが発生しました。しばらくしてからもう一度お試しください。"}), 500
 
+
 if __name__ == "__main__":
     # 必要なディレクトリの作成
     os.makedirs('static', exist_ok=True)
     os.makedirs('templates', exist_ok=True)
-    
-    # アプリ起動時にDBを初期化
-    init_db()
     
     # 開発用サーバー起動
     port = int(os.environ.get("PORT", 5000))
