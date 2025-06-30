@@ -291,7 +291,7 @@ def upload():
         metrics.record_api_call('openai_vision')
         
         gpt_response = client.chat.completions.create(
-            model="gpt-4o",
+            model="gpt-4.1",
             messages=[
                 {
                     "role": "user",
