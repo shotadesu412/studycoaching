@@ -317,7 +317,7 @@ def upload():
             ],
             max_tokens=1500,
             temperature=0.7,
-            timeout=30  # タイムアウト設定
+            timeout=50  # タイムアウト設定
         )
         
         explanation_text = gpt_response.choices[0].message.content.strip()
