@@ -3,19 +3,15 @@ services:
   - type: web
     name: study-support-app
     runtime: python
-    buildFilter:
-      paths:
-        - "app.py"
-        - "requirements.txt"
     buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn app:app"
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.0
       - key: OPENAI_API_KEY
-        sync: false # Renderのダッシュボードで設定
+        sync: false
       - key: MONITORING_TOKEN
-        generateValue: true # 自動でトークンを生成
+        generateValue: true
       - key: REDIS_URL
         fromService:
           type: redis
@@ -31,11 +27,6 @@ services:
   - type: worker
     name: celery-worker
     runtime: python
-    buildFilter:
-      paths:
-        - "app.py"
-        - "celery_worker.py"
-        - "requirements.txt"
     buildCommand: "pip install -r requirements.txt"
     startCommand: "celery -A app.celery worker --loglevel=info"
     envVars:
@@ -57,11 +48,11 @@ services:
           name: redis-broker
           property: connectionString
     disks:
-      - name: sqlite-disk # Webサービスと同じディスクをマウント
+      - name: sqlite-disk
         mountPath: /var/data/render
 
   # 3. Redis Instance (Celery Broker)
   - type: redis
     name: redis-broker
-    ipAllowList: [] # 内部接続のみ許可
+    ipAllowList: []
     maxmemoryPolicy: allkeys-lru
