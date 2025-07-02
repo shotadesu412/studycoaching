@@ -17,10 +17,6 @@ services:
           type: redis
           name: redis-broker
           property: connectionString
-    disks:
-      - name: sqlite-disk
-        mountPath: /var/data/render
-        sizeGB: 1
     healthCheckPath: /health
 
   # 2. Background Worker (Celery)
@@ -47,9 +43,6 @@ services:
           type: redis
           name: redis-broker
           property: connectionString
-    disks:
-      - name: sqlite-disk
-        mountPath: /var/data/render
 
   # 3. Redis Instance (Celery Broker)
   - type: redis
